@@ -190,7 +190,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 1
-  currentColor: 9
+  currentColor: 3
+  currentBlackGreyWhite: 2
 --- !u!1 &244788206
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,7 +362,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.32, y: -0.73}
+  m_AnchoredPosition: {x: 2.48, y: 0.45}
   m_SizeDelta: {x: 20.87, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &419016741
@@ -384,7 +385,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u73A9\u5BB6\u53EA\u80FD\u5728\u76F8\u540C\u989C\u8272\n\u7684\u5730\u5757\u884C\u52A8"
+  m_text: "\u30D7\u30EC\u30A4\u30E4\u30FC\u306F\u540C\u3058\u8272\u306E\u30D6\u30ED\u30C3\u30AF\u4E0A\u3067\u3057\u304B\n\u884C\u52D5\u3067\u304D\u307E\u305B\u3093\u3002"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d2e726696bb134e4fb576469191ebe53, type: 2}
   m_sharedMaterial: {fileID: -5773585097637796677, guid: d2e726696bb134e4fb576469191ebe53, type: 2}
@@ -447,7 +448,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 10.21939, w: -3.1241684}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -825,6 +826,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 992994197}
     m_Modifications:
+    - target: {fileID: 2213500092334239289, guid: c88b9892c38b24c4c9f5f4f17d8a3bcd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1ef45cdcb8dd5b1448ff757b3113da5d, type: 2}
     - target: {fileID: 3399486421273544408, guid: c88b9892c38b24c4c9f5f4f17d8a3bcd, type: 3}
       propertyPath: m_Name
       value: SM_Buildings_Floor_5x5_01 (6)
@@ -1310,7 +1315,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 1
-  currentColor: 9
+  currentColor: 3
+  currentBlackGreyWhite: 2
 --- !u!1 &923588190 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3399486421273544408, guid: c88b9892c38b24c4c9f5f4f17d8a3bcd, type: 3}
@@ -1385,7 +1391,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 1
-  currentColor: 1
+  currentColor: 13
+  currentBlackGreyWhite: 1
 --- !u!1 &993436645
 GameObject:
   m_ObjectHideFlags: 0
@@ -1456,7 +1463,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 1
-  currentColor: 9
+  currentColor: 3
+  currentBlackGreyWhite: 2
 --- !u!1 &1039552418
 GameObject:
   m_ObjectHideFlags: 0
@@ -1497,6 +1505,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1980490922}
     m_Modifications:
+    - target: {fileID: 2213500092334239289, guid: c88b9892c38b24c4c9f5f4f17d8a3bcd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1ef45cdcb8dd5b1448ff757b3113da5d, type: 2}
     - target: {fileID: 3399486421273544408, guid: c88b9892c38b24c4c9f5f4f17d8a3bcd, type: 3}
       propertyPath: m_Name
       value: SM_Buildings_Floor_5x5_01 (7)
@@ -1572,6 +1584,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 1
   currentColor: 1
+  currentBlackGreyWhite: 2
 --- !u!1001 &1243718211
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1886,6 +1899,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2090564615200531190, guid: 4f1137daa72c2864ca1cdf18f6503ec0, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1ef45cdcb8dd5b1448ff757b3113da5d, type: 2}
     - target: {fileID: 7683256317711781898, guid: 4f1137daa72c2864ca1cdf18f6503ec0, type: 3}
       propertyPath: m_Name
       value: Goal_Blue
@@ -2196,7 +2213,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 1
-  currentColor: 9
+  currentColor: 3
+  currentBlackGreyWhite: 2
 --- !u!1 &1826823667
 GameObject:
   m_ObjectHideFlags: 0
@@ -2310,6 +2328,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 992994197}
     m_Modifications:
+    - target: {fileID: 2213500092334239289, guid: c88b9892c38b24c4c9f5f4f17d8a3bcd, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1ef45cdcb8dd5b1448ff757b3113da5d, type: 2}
     - target: {fileID: 3399486421273544408, guid: c88b9892c38b24c4c9f5f4f17d8a3bcd, type: 3}
       propertyPath: m_Name
       value: SM_Buildings_Floor_5x5_01 (8)
@@ -2594,7 +2616,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 1
-  currentColor: 1
+  currentColor: 13
+  currentBlackGreyWhite: 1
 --- !u!1001 &1988224264
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2715,6 +2738,10 @@ PrefabInstance:
     - target: {fileID: 2025849229083011554, guid: f9539ed343610a545be650a90e087bca, type: 3}
       propertyPath: m_Name
       value: ChangeBlue
+      objectReference: {fileID: 0}
+    - target: {fileID: 2025849229083011554, guid: f9539ed343610a545be650a90e087bca, type: 3}
+      propertyPath: m_TagString
+      value: MiddleBlue
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

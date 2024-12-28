@@ -18,6 +18,26 @@ namespace ECM2.Examples.SideScrolling
         // 提示可以按下Ctrl的UI
         public GameObject crouchHint;
 
+        // AudioSource播放特效音效
+        public AudioSource soundEffect;
+
+        // AudioSource播放背景音效
+        public AudioSource backgroundMusic;
+
+        // AudioClip
+        public AudioClip ColorChangeClip;
+        public AudioClip ExplosionClip;
+        public AudioClip GetCoinClip;
+        public AudioClip JumpClip;
+        public AudioClip Run1;
+        public AudioClip Run2;
+        public AudioClip Run3;
+        public AudioClip WorldChangeClip;
+        public AudioClip UiApppearClip;
+        public AudioClip UiDisappearClip;
+        public AudioClip Success1;
+        public AudioClip Success2;
+
 
         protected override void Awake()
         {
@@ -39,6 +59,32 @@ namespace ECM2.Examples.SideScrolling
 
                 float moveInput = Input.GetAxisRaw("Horizontal");
                 SetMovementDirection(Vector3.right * moveInput);
+                /*// 播放跑步音效
+                if (moveInput != 0.0f && !soundEffect.isPlaying)
+                {
+                    // 随机选择一个跑步音效
+                    AudioClip runClip = Random.Range(0, 2) == 0 ? Run1 : Run2;
+                    soundEffect.PlayOneShot(runClip);
+                }
+
+                if (moveInput == 0.0f && soundEffect.isPlaying)
+                {
+                    soundEffect.Stop();
+                }*/
+
+                // 播放跑步音效
+                if ((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && !soundEffect.isPlaying)
+                {
+                    // 随机选择一个跑步音效
+                    AudioClip runClip = Random.Range(0, 2) == 0 ? Run1 : Run2;
+                    soundEffect.PlayOneShot(runClip);
+                }
+
+                if (!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D) && soundEffect.isPlaying)
+                {
+                    soundEffect.Stop();
+                }
+
 
                 // Crouch input
                 if (canCrouch)
@@ -63,7 +109,18 @@ namespace ECM2.Examples.SideScrolling
                 // Jump input
 
                 if (Input.GetButtonDown("Jump"))
+                {
                     Jump();
+                    // 播放跳跃音效
+                    soundEffect.PlayOneShot(JumpClip);
+
+                    if (soundEffect.isPlaying)
+                    {
+                        soundEffect.Stop();
+                    }
+                }
+
+
                 else if (Input.GetButtonUp("Jump"))
                     StopJumping();
 
@@ -77,6 +134,19 @@ namespace ECM2.Examples.SideScrolling
                 {
                     FallThrough();
                 }
+            }
+        }
+
+        // Method to play a random run sound
+        private void PlayRandomRunSound()
+        {
+            if (soundEffect != null && Run1 != null)
+            {
+                soundEffect.PlayOneShot(Run1);
+            }
+            else
+            {
+                Debug.LogWarning("Sound effect AudioSource or Run1 clip is not assigned.");
             }
         }
 

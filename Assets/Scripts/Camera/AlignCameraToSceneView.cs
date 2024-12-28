@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AlignCameraToSceneView : MonoBehaviour
 {
-    private void Awake()
+    /*private void Awake()
     {
         DontDestroyOnLoad(this);
     }
@@ -27,5 +27,5 @@ public class AlignCameraToSceneView : MonoBehaviour
         {
             Debug.LogWarning("No Main Camera found in the scene!");
         }
-    }
+    }*/
 }

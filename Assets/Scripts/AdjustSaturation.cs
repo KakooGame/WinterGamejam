@@ -8,6 +8,8 @@ public class AdjustSaturation : MonoBehaviour
 {
     public Volume volume; // 拖入 Volume 对象
     private ColorAdjustments colorAdjustments;
+    
+    public float saturationValue = 0;
 
     private void Awake()
     {
@@ -24,6 +26,11 @@ public class AdjustSaturation : MonoBehaviour
         {
             Debug.LogError("No Color Adjustments in Volume profile!");
         }
+    }
+
+    private void Update()
+    {
+        saturationValue = colorAdjustments.saturation.value;
     }
 
 

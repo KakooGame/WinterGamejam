@@ -4,27 +4,34 @@ using System.Collections.Generic;
 using ECM2.Examples.SideScrolling;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 
 public enum MaterialColor
 {
-    Black,
-    Blue,
-    Brown,
-    DarkGreen,
-    Green,
-    Grey,
-    Orange,
-    Red,
     White,
-    Yellow
+    Grey,
+    Black,
+    LightYellow,
+    MiddleYellow,
+    DarkYellow,
+    LightPink,
+    MiddlePink,
+    DarkPink,
+    LightGreen,
+    MiddleGreen,
+    DarkGreen,
+    LightBlue,
+    MiddleBlue,
+    DarkBlue,
 }
 
 public class CharacterController : MonoBehaviour
 {
     // 材质编号
     public MaterialColor materialColor;
+
 
     // 新的材质
     public Material[] newMaterials;
@@ -34,12 +41,28 @@ public class CharacterController : MonoBehaviour
     // 爆炸特效
     public GameObject explosionPrefab;
 
+    // 是否是黑白模式
+    public bool isBlackAndWhite = false;
+
+
     // 提示可以按下Ctrl的UI
     public GameObject crouchHint;
+
+    public UnityEvent onDie;
+
+    public AudioSource successSound;
+
 
     public void Awake()
     {
         DontDestroyOnLoad(this);
+
+
+        // Initialize the Unity event
+        if (onDie == null)
+        {
+            onDie = new UnityEvent();
+        }
     }
 
     private void Update()
@@ -49,6 +72,12 @@ public class CharacterController : MonoBehaviour
         {
             Die();
         }
+    }
+
+    // 新的切换材质的方法
+    [Button]
+    public void ChangeRendererMaterialNew()
+    {
     }
 
     // 切换材质的方法
@@ -80,23 +109,68 @@ public class CharacterController : MonoBehaviour
         // 使用switch语句，根据tag切换材质
         switch (other.gameObject.tag)
         {
-            case "Red":
-                materialColor = MaterialColor.Red;
-                ChangeRendererMaterial();
+            case "White":
+                materialColor = MaterialColor.White;
+                skinnedMeshRenderer.material = newMaterials[(int)MaterialColor.White];
                 break;
-            case "Green":
-                materialColor = MaterialColor.Green;
-                ChangeRendererMaterial();
+            case "Grey":
+                materialColor = MaterialColor.Grey;
+                skinnedMeshRenderer.material = newMaterials[(int)MaterialColor.Grey];
                 break;
-            case "Blue":
-                materialColor = MaterialColor.Blue;
-                ChangeRendererMaterial();
+            case "Black":
+                materialColor = MaterialColor.Black;
+                skinnedMeshRenderer.material = newMaterials[(int)MaterialColor.Black];
                 break;
-            case "Yellow":
-                materialColor = MaterialColor.Yellow;
-                ChangeRendererMaterial();
+            case "LightYellow":
+                materialColor = MaterialColor.LightYellow;
+                skinnedMeshRenderer.material = newMaterials[(int)MaterialColor.LightYellow];
+                break;
+            case "MiddleYellow":
+                materialColor = MaterialColor.MiddleYellow;
+                skinnedMeshRenderer.material = newMaterials[(int)MaterialColor.MiddleYellow];
+                break;
+            case "DarkYellow":
+                materialColor = MaterialColor.DarkYellow;
+                skinnedMeshRenderer.material = newMaterials[(int)MaterialColor.DarkYellow];
+                break;
+            case "LightPink":
+                materialColor = MaterialColor.LightPink;
+                skinnedMeshRenderer.material = newMaterials[(int)MaterialColor.LightPink];
+                break;
+            case "MiddlePink":
+                materialColor = MaterialColor.MiddlePink;
+                skinnedMeshRenderer.material = newMaterials[(int)MaterialColor.MiddlePink];
+                break;
+            case "DarkPink":
+                materialColor = MaterialColor.DarkPink;
+                skinnedMeshRenderer.material = newMaterials[(int)MaterialColor.DarkPink];
+                break;
+            case "LightGreen":
+                materialColor = MaterialColor.LightGreen;
+                skinnedMeshRenderer.material = newMaterials[(int)MaterialColor.LightGreen];
+                break;
+            case "MiddleGreen":
+                materialColor = MaterialColor.MiddleGreen;
+                skinnedMeshRenderer.material = newMaterials[(int)MaterialColor.MiddleGreen];
+                break;
+            case "DarkGreen":
+                materialColor = MaterialColor.DarkGreen;
+                skinnedMeshRenderer.material = newMaterials[(int)MaterialColor.DarkGreen];
+                break;
+            case "LightBlue":
+                materialColor = MaterialColor.LightBlue;
+                skinnedMeshRenderer.material = newMaterials[(int)MaterialColor.LightBlue];
+                break;
+            case "MiddleBlue":
+                materialColor = MaterialColor.MiddleBlue;
+                skinnedMeshRenderer.material = newMaterials[(int)MaterialColor.MiddleBlue];
+                break;
+            case "DarkBlue":
+                materialColor = MaterialColor.DarkBlue;
+                skinnedMeshRenderer.material = newMaterials[(int)MaterialColor.DarkBlue];
                 break;
             default:
+                Debug.LogWarning("Unknown tag: " + other.gameObject.tag);
                 break;
         }
 
@@ -108,10 +182,51 @@ public class CharacterController : MonoBehaviour
             // 得到该物体上的Floor脚本
             Floor floor = other.GetComponent<Floor>();
 
-            // 如果玩家的颜色和地板的颜色不一样，暂停游戏
-            if (floor != null && floor.currentState == Floor.State.Colored && floor.currentColor != materialColor)
+            // 如果不是黑白模式
+            if (FindObjectOfType<AdjustSaturation>().saturationValue != -100)
             {
-                Die();
+                // 如果玩家的颜色和地板的颜色不一样，暂停游戏
+                if (floor != null && floor.currentState == Floor.State.Colored && floor.currentColor != materialColor)
+                {
+                    Die();
+                }
+            }
+            else
+            {
+                // 如果是黑白模式，根据玩家角色的颜色系列允许其站在相应的地板上
+                if (floor != null)
+                {
+                    bool canStand = false;
+
+                    switch (materialColor)
+                    {
+                        case MaterialColor.LightYellow:
+                        case MaterialColor.LightPink:
+                        case MaterialColor.LightGreen:
+                        case MaterialColor.LightBlue:
+                            canStand = (floor.currentBlackGreyWhite == Floor.BlackGreyWhite.White);
+                            break;
+
+                        case MaterialColor.MiddleYellow:
+                        case MaterialColor.MiddlePink:
+                        case MaterialColor.MiddleGreen:
+                        case MaterialColor.MiddleBlue:
+                            canStand = (floor.currentBlackGreyWhite == Floor.BlackGreyWhite.Grey);
+                            break;
+
+                        case MaterialColor.DarkYellow:
+                        case MaterialColor.DarkPink:
+                        case MaterialColor.DarkGreen:
+                        case MaterialColor.DarkBlue:
+                            canStand = (floor.currentBlackGreyWhite == Floor.BlackGreyWhite.Black);
+                            break;
+                    }
+
+                    if (!canStand)
+                    {
+                        Die();
+                    }
+                }
             }
         }
 
@@ -132,28 +247,184 @@ public class CharacterController : MonoBehaviour
             SideScrollingCharacter character = GetComponent<SideScrollingCharacter>();
             character.canCrouch = true;
         }
+
+        if (other.gameObject.tag == "CanUseCtrlAndBeWhite")
+        {
+            // 如果是黑白模式
+            if (FindObjectOfType<AdjustSaturation>().saturationValue == -100)
+            {
+                crouchHint.SetActive(true);
+                SideScrollingCharacter character = GetComponent<SideScrollingCharacter>();
+                character.canCrouch = true;
+            }
+        }
+
+        // 如果tag时Success，播放胜利音效，5s后切换到场景0.
+        if (other.gameObject.tag == "Success")
+        {
+            SideScrollingCharacter character = GetComponent<SideScrollingCharacter>();
+            // character.soundEffect.PlayOneShot(character.Success1);
+
+            successSound.Play();
+            // Time.timeScale = 0;
+            // Invoke("ResetCharacter", 5f);
+
+            // 6s后调用GameManager的ChangeScene方法，切换到场景0
+            Invoke("ChangeToStartScene", 3f);
+        }
     }
-    
+
+    private void ChangeToStartScene()
+    {
+        FindObjectOfType<GameManager>().ChangeScene(0);
+    }
+
+    public void OnTriggerStay(Collider other)
+    {
+        // 当该物体图层为"Floor"时，执行方法
+        if (other.gameObject.layer == LayerMask.NameToLayer("Floor"))
+        {
+            Debug.Log("碰到了地板！");
+
+            // 得到该物体上的Floor脚本
+            Floor floor = other.GetComponent<Floor>();
+
+            // 如果不是黑白模式
+            if (FindObjectOfType<AdjustSaturation>().saturationValue != -100)
+            {
+                // 如果玩家的颜色和地板的颜色不一样，暂停游戏
+                if (floor != null && floor.currentState == Floor.State.Colored && floor.currentColor != materialColor)
+                {
+                    Die();
+                }
+            }
+            else
+            {
+                // 如果是黑白模式，根据玩家角色的颜色系列允许其站在相应的地板上
+                if (floor != null)
+                {
+                    bool canStand = false;
+
+                    switch (materialColor)
+                    {
+                        case MaterialColor.LightYellow:
+                        case MaterialColor.LightPink:
+                        case MaterialColor.LightGreen:
+                        case MaterialColor.LightBlue:
+                            canStand = (floor.currentBlackGreyWhite == Floor.BlackGreyWhite.White);
+                            break;
+
+                        case MaterialColor.MiddleYellow:
+                        case MaterialColor.MiddlePink:
+                        case MaterialColor.MiddleGreen:
+                        case MaterialColor.MiddleBlue:
+                            canStand = (floor.currentBlackGreyWhite == Floor.BlackGreyWhite.Grey);
+                            break;
+
+                        case MaterialColor.DarkYellow:
+                        case MaterialColor.DarkPink:
+                        case MaterialColor.DarkGreen:
+                        case MaterialColor.DarkBlue:
+                            canStand = (floor.currentBlackGreyWhite == Floor.BlackGreyWhite.Black);
+                            break;
+                    }
+
+                    if (!canStand)
+                    {
+                        Die();
+                    }
+                }
+            }
+        }
+
+        if (other.gameObject.tag == "CanUseCtrlAndBeWhite")
+        {
+            // 如果是黑白模式
+            if (FindObjectOfType<AdjustSaturation>().saturationValue == -100)
+            {
+                crouchHint.SetActive(true);
+                SideScrollingCharacter character = GetComponent<SideScrollingCharacter>();
+                character.canCrouch = true;
+            }
+            else
+            {
+                crouchHint.SetActive(false);
+                SideScrollingCharacter character = GetComponent<SideScrollingCharacter>();
+                character.canCrouch = false;
+            }
+        }
+
+        if (other.gameObject.tag == "CanUseCtrlBeColor")
+        {
+            // 如果是彩色模式
+            if (FindObjectOfType<AdjustSaturation>().saturationValue != -100)
+            {
+                crouchHint.SetActive(true);
+                SideScrollingCharacter character = GetComponent<SideScrollingCharacter>();
+                character.canCrouch = true;
+            }
+            else
+            {
+                crouchHint.SetActive(false);
+                SideScrollingCharacter character = GetComponent<SideScrollingCharacter>();
+                character.canCrouch = false;
+            }
+        }
+    }
+
     public void OnTriggerExit(Collider other)
     {
         // 如果tag是CanUseCtrl，则关闭canCrouch
         if (other.gameObject.tag == "CanUseCtrl")
         {
-                     SideScrollingCharacter character = GetComponent<SideScrollingCharacter>();
+            SideScrollingCharacter character = GetComponent<SideScrollingCharacter>();
             character.canCrouch = false;
+            crouchHint.SetActive(false);
+
+            // 角色站起来
+            character.UnCrouch();
+        }
+
+        if (other.gameObject.tag == "CanUseCtrlAndBeWhite")
+        {
+            SideScrollingCharacter character = GetComponent<SideScrollingCharacter>();
+            character.canCrouch = false;
+            crouchHint.SetActive(false);
+
+            // 角色站起来
+            character.UnCrouch();
+        }
+
+        if (other.gameObject.tag == "CanUseCtrlBeColor")
+        {
+            SideScrollingCharacter character = GetComponent<SideScrollingCharacter>();
+            character.canCrouch = false;
+            crouchHint.SetActive(false);
+
+            // 角色站起来
+            character.UnCrouch();
         }
     }
 
     // 玩家死亡执行办法
     public void Die()
     {
+        // 禁止角色控制
+        SideScrollingCharacter character = GetComponent<SideScrollingCharacter>();
+
+        // 播放sideScrollingCharacter中的死亡音效
+        character.soundEffect.PlayOneShot(character.ExplosionClip);
+
+
+        // Invoke the Unity event
+        onDie.Invoke();
+
         Debug.Log("玩家死亡！");
 
         // 开启爆炸特效
         explosionPrefab.SetActive(true);
 
-        // 禁止角色控制
-        SideScrollingCharacter character = GetComponent<SideScrollingCharacter>();
+
         character.canControl = false;
 
         // 关闭角色的碰撞体
@@ -165,6 +436,7 @@ public class CharacterController : MonoBehaviour
 
         //角色消失
         skinnedMeshRenderer.enabled = false;
+
 
         // 2秒后重置角色状态
         Invoke("ResetCharacter", 2.1f);
@@ -190,7 +462,7 @@ public class CharacterController : MonoBehaviour
         // 关闭爆炸特效
         explosionPrefab.SetActive(false);
 
-        materialColor = MaterialColor.Yellow;
+        materialColor = MaterialColor.LightYellow;
         ChangeRendererMaterial();
 
         Time.timeScale = 1;

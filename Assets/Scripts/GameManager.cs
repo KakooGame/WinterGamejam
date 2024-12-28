@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
     // 是否可以使用Q
     public bool canUseQ = false;
-    
+
     // 保证该脚本切换场景时不被销毁
     private void Awake()
     {
@@ -25,6 +25,10 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q) && canUseQ)
         {
+            SideScrollingCharacter character1 = FindObjectOfType<SideScrollingCharacter>();
+            character1.soundEffect.PlayOneShot(character1.WorldChangeClip);
+
+
             FindObjectOfType<AdjustSaturation>().ToggleSaturation();
 
             // 找到玩家，其身上的SideScrollingCharacter，调整其重力值
@@ -43,8 +47,16 @@ public class GameManager : MonoBehaviour
                     {
                         character.gravityScale = 1.75f;
                     }
+
+                    // 播放音效
                 }
             }
+        }
+
+        // 如果按下Esc键，返回开始场景
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         }
     }
 }

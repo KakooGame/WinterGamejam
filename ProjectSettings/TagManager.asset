@@ -10,6 +10,25 @@ TagManager:
   - Green
   - CanUseCtrl
   - Yellow
+  - White
+  - Grey
+  - Black
+  - LightYellow
+  - MiddleYellow
+  - DarkYello
+  - DarkYellow
+  - LightPink
+  - MiddlePink
+  - DarkPink
+  - LightGreen
+  - MiddleGreen
+  - DarkGreen
+  - LightBlue
+  - MiddleBlue
+  - DarkBlue
+  - CanUseCtrlAndBeWhite
+  - CanUseCtrlBeColor
+  - Success
   layers:
   - Default
   - TransparentFX

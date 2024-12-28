@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using ECM2.Examples.SideScrolling;
 using UnityEngine;
 
 public class RotateAndChangeColor : MonoBehaviour
@@ -25,6 +26,14 @@ public class RotateAndChangeColor : MonoBehaviour
 
                 // 该物体消失
                 Destroy(gameObject);
+                
+                // 播放sideScrollingCharacter的音效
+                SideScrollingCharacter character = other.GetComponent<SideScrollingCharacter>();
+                if (character != null)
+                {
+                    character.soundEffect.PlayOneShot(character.GetCoinClip);
+                }
+                
             }
         }
     }
