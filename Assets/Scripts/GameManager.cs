@@ -26,7 +26,13 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q) && canUseQ)
         {
             SideScrollingCharacter character1 = FindObjectOfType<SideScrollingCharacter>();
-            character1.soundEffect.PlayOneShot(character1.WorldChangeClip);
+
+            // 减小该音效的音量
+            //   character1.soundEffect.volume = 0.3f;
+            //  character1.soundEffect.PlayOneShot(character1.WorldChangeClip);
+
+            // 恢复音效音量
+            //   character1.soundEffect.volume = 1f;
 
 
             FindObjectOfType<AdjustSaturation>().ToggleSaturation();

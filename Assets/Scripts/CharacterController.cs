@@ -52,6 +52,8 @@ public class CharacterController : MonoBehaviour
 
     public AudioSource successSound;
 
+    public GameObject UICanvasGameObject;
+
 
     public void Awake()
     {
@@ -266,11 +268,19 @@ public class CharacterController : MonoBehaviour
             // character.soundEffect.PlayOneShot(character.Success1);
 
             successSound.Play();
+
+            // 找到场景中名为UICanvas的物体，开启
+            // GameObject.Find("UICanvas").SetActive(true);
+            if (UICanvasGameObject != null)
+            {
+                UICanvasGameObject.SetActive(true);
+            }
+
             // Time.timeScale = 0;
             // Invoke("ResetCharacter", 5f);
 
             // 6s后调用GameManager的ChangeScene方法，切换到场景0
-            Invoke("ChangeToStartScene", 3f);
+            Invoke("ChangeToStartScene", 2f);
         }
     }
 
