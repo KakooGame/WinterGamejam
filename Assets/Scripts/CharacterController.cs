@@ -54,6 +54,8 @@ public class CharacterController : MonoBehaviour
 
     public GameObject UICanvasGameObject;
 
+    private bool hasPlayedDeathSound = false;
+
 
     public void Awake()
     {
@@ -422,8 +424,16 @@ public class CharacterController : MonoBehaviour
         // 禁止角色控制
         SideScrollingCharacter character = GetComponent<SideScrollingCharacter>();
 
-        // 播放sideScrollingCharacter中的死亡音效
-        character.soundEffect.PlayOneShot(character.ExplosionClip);
+
+        // 确保死亡音效只播放一次
+        if (!hasPlayedDeathSound)
+        {
+            // 播放sideScrollingCharacter中的死亡音效
+            character.soundEffect.PlayOneShot(character.ExplosionClip);
+
+
+            hasPlayedDeathSound = true;
+        }
 
 
         // Invoke the Unity event
